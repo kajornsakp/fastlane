@@ -121,8 +121,20 @@ module Scan
     def pipe
       pipe = ["| tee '#{xcodebuild_log_path}'"]
 
+      filter_patterns = [
+        "MT] DVTAssertions: Warning in",
+        "Details:  createItemModels",
+        "Function: createItemModels",
+        "Thread:   <_NSMainThread: ",
+        "Please file a bug at https://feedbackassistant.apple.com with this warning message and any useful information you can provide.",
+        ]
+  
+      # Construct the grep part of the command using multiple patterns
+      grep_command = filter_patterns.map { |pattern| "| grep -v -e '#{pattern}'" }.join(' ')
+    
       # disable_xcpretty is now deprecated and directs to use output_style of raw
       if Scan.config[:disable_xcpretty] || Scan.config[:output_style] == 'raw'
+        pipe << grep_command
         return pipe
       end
 
@@ -142,7 +154,7 @@ module Scan
       else
         pipe << "| #{formatter}"
       end
-
+      pipe << grep_command
       return pipe
     end
 
