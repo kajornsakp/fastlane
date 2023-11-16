@@ -160,7 +160,7 @@ module Scan
     end
 
     def pipe_xcbeautify
-      formatter = ['| xcbeautify --quieter']
+      formatter = ['| xcbeautify --isCi']
 
       if FastlaneCore::Helper.colors_disabled?
         formatter << '--disable-colored-output'
