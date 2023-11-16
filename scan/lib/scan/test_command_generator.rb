@@ -119,9 +119,10 @@ module Scan
     end
 
     def pipe
-      pipe = [""]
+      pipe = ["| tee '#{xcodebuild_log_path}'"]
 
       filter_patterns = [
+        "createItemModels",
         "MT] DVTAssertions: Warning in",
         "Details:  createItemModels",
         "Function: createItemModels",
