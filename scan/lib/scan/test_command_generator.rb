@@ -119,7 +119,7 @@ module Scan
     end
 
     def pipe
-      pipe = ["| tee '#{xcodebuild_log_path}'"]
+      pipe = [""]
 
       filter_patterns = [
         "MT] DVTAssertions: Warning in",
