@@ -131,7 +131,7 @@ module Scan
         ]
   
       # Construct the grep part of the command using multiple patterns
-      grep_command = filter_patterns.map { |pattern| "| grep -v -e '#{pattern}'" }.join(' ')
+      grep_command = filter_patterns.map { |pattern| " 2> | grep -v -e '#{pattern}'" }.join(' ')
     
       # disable_xcpretty is now deprecated and directs to use output_style of raw
       if Scan.config[:disable_xcpretty] || Scan.config[:output_style] == 'raw'
@@ -141,7 +141,7 @@ module Scan
       
       formatter = Scan.config[:xcodebuild_formatter].chomp
       options = legacy_xcpretty_options
-
+      pipe << grep_command
       if formatter == ''
         UI.verbose("Not using an xcodebuild formatter")
       elsif !options.empty?
@@ -155,7 +155,7 @@ module Scan
       else
         pipe << "| #{formatter}"
       end
-      pipe << grep_command
+      
       return pipe
     end
 
