@@ -138,7 +138,7 @@ module Scan
         pipe << grep_command
         return pipe
       end
-      pipe << grep_command
+      
       formatter = Scan.config[:xcodebuild_formatter].chomp
       options = legacy_xcpretty_options
 
@@ -155,7 +155,7 @@ module Scan
       else
         pipe << "| #{formatter}"
       end
-      
+      pipe << grep_command
       return pipe
     end
 
