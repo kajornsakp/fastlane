@@ -131,7 +131,7 @@ module Scan
         ]
   
       # Construct the grep part of the command using multiple patterns
-      grep_command = filter_patterns.map { |pattern| " | 2> | grep -v -e '#{pattern}'" }.join(' ')
+      grep_command = filter_patterns.map { |pattern| " | 2> grep -v -e '#{pattern}'" }.join(' ')
     
       # disable_xcpretty is now deprecated and directs to use output_style of raw
       if Scan.config[:disable_xcpretty] || Scan.config[:output_style] == 'raw'
