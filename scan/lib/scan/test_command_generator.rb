@@ -119,7 +119,7 @@ module Scan
     end
 
     def pipe
-      pipe = ["| tee '#{xcodebuild_log_path}'"]
+      pipe = ["| grep -v createItemModels | tee '#{xcodebuild_log_path}'"]
 
       filter_patterns = [
         "createItemModels",
@@ -135,13 +135,12 @@ module Scan
     
       # disable_xcpretty is now deprecated and directs to use output_style of raw
       if Scan.config[:disable_xcpretty] || Scan.config[:output_style] == 'raw'
-        pipe << grep_command
         return pipe
       end
       
       formatter = Scan.config[:xcodebuild_formatter].chomp
       options = legacy_xcpretty_options
-      pipe << grep_command
+
       if formatter == ''
         UI.verbose("Not using an xcodebuild formatter")
       elsif !options.empty?
