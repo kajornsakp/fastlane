@@ -119,7 +119,7 @@ module Scan
     end
 
     def pipe
-      pipe = ["2> temp_err.log; cat temp_err.log | grep -v 'createItemModels' 1>&2; rm temp_err.log | tee '#{xcodebuild_log_path}'"]
+      pipe = ["| grep -v 'createItemModels' | tee '#{xcodebuild_log_path}'"]
 
       filter_patterns = [
         "createItemModels",
